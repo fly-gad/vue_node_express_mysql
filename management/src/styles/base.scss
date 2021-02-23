@@ -1,0 +1,106 @@
+/*
+ * @Author: MrZhang
+ * @Date: 2020-12-14 10:15:06
+ * @Description: 公共样式
+ */
+@import "./fun.scss";
+@import "./reset.scss";
+@import "./margin.scss";
+@import "./padding.scss";
+@import "./flex.scss";
+
+
+.dibk {
+    display: inline-block;
+}
+
+.bg-white {
+    background-color: #fff;
+}
+.br5 {
+    border-radius: 5px;
+}
+
+.ellipsis {
+    max-width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-wrap: normal;
+}
+
+.line {
+    position: relative;
+    &::before {
+        content: "";
+        z-index: 1;
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        height: 1px;
+        background-color: #EBEEF5;
+  }
+}
+
+.fit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.breadcrumb-back {
+    line-height: 34px;
+    .el-icon-back {
+        border: 1px solid #d1d1d1;
+        border-radius: 50%;
+        padding: 3px;
+    }
+}
+
+.t-a-r {
+    text-align: right;
+}
+
+.el-pagination {
+    padding: 0;
+    display: inline-block;
+    margin-right: -5px;
+}
+
+
+.w100 {
+    width: 100px;
+}
+
+.w200 {
+    width: 200px;
+}
+
+.w300 {
+    width: 300px;
+}
+.h100 {
+    height: 100px;
+}
+
+.h200 {
+    height: 200px;
+}
+
+.h300 {
+    height: 300px;
+}
+
+.font-20 {
+    font-size: 20px;
+}
+.cur-p{
+    cursor: pointer;
+}
+.pd10{
+    padding: 10px;
+}

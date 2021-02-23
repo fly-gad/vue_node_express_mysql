@@ -1,0 +1,20 @@
+/*
+ * @Author: MrZhang
+ * @Date: 2020-12-15 09:40:45
+ * @Description: 弹性盒子样式
+ */
+.flex {
+    display: flex;
+}
+.flex-jcsb {
+    justify-content: space-between;
+}
+.flex-jcsa {
+    justify-content:space-around
+}
+//垂直水平居中level、vertical center
+.levercen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
