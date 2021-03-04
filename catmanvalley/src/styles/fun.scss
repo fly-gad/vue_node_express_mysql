@@ -1,0 +1,10 @@
+/*
+* @file css 函数
+*/
+
+@function unit($number) {
+    $size: $number - 1;
+    @return $size + 1px;
+}
+
+

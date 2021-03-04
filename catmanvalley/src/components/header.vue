@@ -28,6 +28,9 @@
                 </div>
             </el-col>
         </el-row>
+        <transition name="bounce">
+            <div v-if="show"></div>
+        </transition>
     </div>
 </template>
 
@@ -39,6 +42,7 @@ export default {
         return {
             err: "&#12288;",
             fullscreenLoading: false,
+            show: true,
         }
     },
     methods: {
@@ -68,7 +72,7 @@ export default {
     },
 }
 </script>
-<style>
+<style scoped>
 .el-popover {
     padding: 0px !important;
 }

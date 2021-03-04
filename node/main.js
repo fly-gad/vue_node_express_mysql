@@ -15,9 +15,13 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-//引入接口模块
-let interface = require('./http/interface');
+//引入接口模块后台
+let interface = require('./http/interface/interface');
 app.use('/api', interface);
+
+//引入接口模块前台
+let catmanvalley = require('./http/interface/catmanvalley');
+app.use('/api', catmanvalley);
 
 //引入环境变量
 const { env } = require('./http/env')

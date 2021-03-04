@@ -24,11 +24,11 @@
             <el-submenu index="2">
                 <template slot="title">
                     <i class="el-icon-s-data"></i>
-                    <span>测试</span>
+                    <span>帐号管理</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="">test1</el-menu-item>
-                    <el-menu-item index="">test2</el-menu-item>
+                    <el-menu-item index="/system/modifypass">修改密码</el-menu-item>
+                    <el-menu-item index="/system/index">个人信息</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
         </el-menu>

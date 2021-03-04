@@ -28,3 +28,6 @@ export const accuntinfo = function (params) {
 export const modifypassword = function (params) {
     return API.post('/modifypassword', params)
 }
+export const user = function () {
+    return API.post('/user')
+}

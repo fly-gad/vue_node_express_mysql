@@ -5,6 +5,7 @@
  */
 const db = require("../../http/db")
 
+//查询列表总数
 const number = async () => {
     let sql = 'select count(*) as count from list';
     let sqlArr = [];
@@ -13,7 +14,7 @@ const number = async () => {
     return res[0].count
 }
 
-//分页+字段搜索
+//列表分页+字段搜索
 const lists = async (req, res) => {
     var params = req.query || req.params;
     let sql = "SELECT * FROM `list`";
@@ -44,30 +45,53 @@ const lists = async (req, res) => {
         sqlArr.push((current - 1) * pageSize, parseInt(pageSize));
     }
     let length = await number()
-    console.log('length: ', length);
-    let callback = (err, data) => {
-        console.log('data: ', data.length);
-        if (err) {
-            res.send({
-                code: 400,
-                msg: '失败'
-            })
-        } else {
-            res.send({
-                code: 200,
-                msg: '成功',
-                data: {
-                    list: data,
-                    total: data.length,
-                    page: Number(params.page) || 1,
-                    page_size: Number(params.page_size) || 10
-                },
-            })
+    if (sqlArr.length > 2) {
+        let callback = (err, data) => {
+            if (err) {
+                res.send({
+                    code: 400,
+                    msg: '失败'
+                })
+            } else {
+                res.send({
+                    code: 200,
+                    msg: '成功',
+                    data: {
+                        list: data,
+                        total: data.length,
+                        page: Number(params.page) || 1,
+                        page_size: Number(params.page_size) || 10
+                    },
+                })
+            }
         }
+        db.sqlconnection(sql, sqlArr, callback)
+    } else {
+        let callbacks = (err, data) => {
+            if (err) {
+                res.send({
+                    code: 400,
+                    msg: '失败'
+                })
+            } else {
+                res.send({
+                    code: 200,
+                    msg: '成功',
+                    data: {
+                        list: data,
+                        total: length,
+                        page: Number(params.page) || 1,
+                        page_size: Number(params.page_size) || 10
+                    },
+                })
+            }
+        }
+        db.sqlconnection(sql, sqlArr, callbacks)
     }
-    db.sqlconnection(sql, sqlArr, callback)
-}
 
+
+
+}
 
 module.exports = {
     lists
