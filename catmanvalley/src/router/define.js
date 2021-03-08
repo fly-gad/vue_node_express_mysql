@@ -28,9 +28,29 @@ const routes = [
                 component: () => import('@/views/home/index.vue')
             },
             {
-                path: 'pagination',
+                path: 'reply',
                 name: '回答',
-                component: () => import('@/views/home/pagination.vue')
+                component: () => import('@/views/home/reply.vue')
+            },
+            {
+                path: 'video',
+                name: '视频',
+                component: () => import('@/views/home/video.vue')
+            },
+            {
+                path: 'problem',
+                name: '问题',
+                component: () => import('@/views/home/problem.vue')
+            },
+            {
+                path: 'favorites',
+                name: '收藏',
+                component: () => import('@/views/home/favorites.vue')
+            },
+            {
+                path: 'detail',
+                name: '文章细节',
+                component: () => import('@/views/home/detail.vue')
             }
         ]
     }

@@ -64,11 +64,7 @@ export default {
             })
         },
         //设置
-        settings() {
-            this.$router.push({
-                path: "/settings",
-            })
-        },
+        settings() {},
     },
 }
 </script>

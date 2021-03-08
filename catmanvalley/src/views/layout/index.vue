@@ -12,18 +12,18 @@
             <el-container>
                 <el-main>
                     <el-row :gutter="10">
-                        <el-col :span="4">
+                        <el-col :span="2">
                             <div v-html="err"></div>
                         </el-col>
-                        <el-col :span="16">
-                            <el-col :span="16">
+                        <el-col :span="20">
+                            <el-col :span="18">
                                 <router-view />
                             </el-col>
-                            <el-col :span="8">
+                            <el-col :span="6">
                                 <menus></menus>
                             </el-col>
                         </el-col>
-                        <el-col :span="4">
+                        <el-col :span="2">
                             <div v-html="err"></div>
                         </el-col>
                     </el-row>

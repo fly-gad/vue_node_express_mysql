@@ -21,7 +21,7 @@
                 <div>草稿箱</div>
             </div>
         </div>
-        <div class="grid-content advertising">广告</div>
+        <div class="grid-content advertising">广告招商</div>
         <div class="advertising">
             <div class="foor mt20">
                 <a href="#">猫人谷指南猫人谷协议猫人谷隐私保护指引</a>
@@ -51,22 +51,22 @@ export default {
                 {
                     name: "回答问题",
                     imgUrl: "回",
-                    to: "/home/pagination",
+                    to: "/home/reply",
                 },
                 {
                     name: "发视频",
                     imgUrl: "发",
-                    to: "/home/pagination",
+                    to: "/home/video",
                 },
                 {
-                    name: "写文章",
-                    imgUrl: "写",
-                    to: "/home/pagination",
+                    name: "提问题",
+                    imgUrl: "提",
+                    to: "/home/problem",
                 },
                 {
-                    name: "写想法",
-                    imgUrl: "写",
-                    to: "/home/pagination",
+                    name: "收藏",
+                    imgUrl: "收",
+                    to: "/home/favorites",
                 },
             ],
         }

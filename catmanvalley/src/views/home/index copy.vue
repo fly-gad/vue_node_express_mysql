@@ -14,18 +14,24 @@
             <!-- 数据展示 -->
             <div v-if="lists.length>=0">
                 <div class="entrynum" v-for="item in lists" :key="item.id">
-                    <div class="mb5 title cur-p" @click="detail(item.id)">{{item.title}}</div>
-                    <div class="flex flex-jcsb mb10">
+                    <div>
+                        <div class="mb10 title">{{item.title}}</div>
+                        <div class="her">{{item.details}}</div>
+                    </div>
+                    <!-- 功能面板 -->
+                    <div class="flex mt10 functionalArea">
                         <div>
-                            <span class="font-13">5420回复</span>
-                            <span class="ml20 font-13">12小时前</span>
+                            <i class="el-icon-chat-round ionCor"></i>
+                            <span class="ionCor" @click="showNav(item.id)">{{ currentTab == item.id ? '关闭评论' : `${item.comment}评论`}}</span>
                         </div>
                         <div>
-                            <span class="font-13">收藏</span>
-                            <span class="ml20 font-13">评论</span>
+                            <i class="el-icon-star-on ionCor"></i>
+                            <span class="ionCor">{{favorites[item.favorites]}}</span>
                         </div>
                     </div>
-                    <div class="line mb10"></div>
+                    <div class="line m10"></div>
+                    <!-- 回复 -->
+                    <comment v-show="currentTab==item.id" :commentNum="item"></comment>
                 </div>
             </div>
             <!-- 无数据展示 -->
@@ -41,9 +47,11 @@
 
 <script>
 import * as serve from "@/server/catmanvalley"
+
+import comment from "@/components/comment"
 export default {
     name: "",
-    components: {},
+    components: { comment },
     props: {},
     data() {
         return {
@@ -68,21 +76,13 @@ export default {
         showNav(tab) {
             this.currentTab = this.currentTab == tab ? "" : tab
         },
-        detail(val) {
-            this.$router.push({
-                path: "/home/detail",
-                query: {
-                    id: val,
-                },
-            })
-        },
     },
 }
 </script>
 
 <style scoped>
 .title {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 700;
 }
 .her {
