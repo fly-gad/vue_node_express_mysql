@@ -1,116 +1,133 @@
 <!--
  * @Author: MrZhang
- * @Date: 2021-03-08 11:40:31
- * @Description: 视频
+ * @Date: 2021-03-08 11:42:12
+ * @Description: 发视频
 -->
 <template>
-    <div class="video">
-        <div class="grid-content">
-            <el-form>
-                <el-form-item label="上传视频介绍：" prop="videoIntroduce" style="margin-top:20px">
-                    <el-input v-model="temp.videoIntroduce" type="text" style="display:none"></el-input>
-                    <el-upload
-                        ref="upload"
-                        :headers="headers"
-                        action="/tools/oss/uploadVideo"
-                        :before-upload="onBeforeUpload"
-                        :on-success="uploadSuccess"
-                        :on-remove="handleRemoveVideo"
-                        :on-progress="handProgress"
-                        :file-list="fileList"
-                        :show-file-list="false"
-                        :auto-upload="true"
-                        :accept="'.mp4'"
-                        :limit="2"
-                    >
-                        <el-button slot="trigger" size="small" type="primary" plain>上传视频</el-button>
-                        <el-button size="small" type="danger" @click="clearUpload">移除</el-button>
-                    </el-upload>
-                    <video
-                        v-if="temp.videoIntroduce"
-                        ref="videoBox"
-                        id="testVideo"
-                        class="video-js"
-                        height="300px"
-                        preload="auto"
-                        controls
-                        :src="temp.videoIntroduce"
-                    ></video>
-                    <el-progress :text-inside="true" :stroke-width="16" :percentage="uploadProgress" v-show="uploadProgress"></el-progress>
-                </el-form-item>
-            </el-form>
+    <div class="grid-content pb20">
+        <div class="pd10">
+            <el-input placeholder="最多输入50个字符" v-model="title"></el-input>
         </div>
+        <div class="pd10">
+            <div v-if="videoForm.showVideoPath ==''">
+                <el-upload
+                    action="http://127.0.0.1:8001/api/uploadImage"
+                    drag
+                    :on-progress="uploadVideoProcess"
+                    :on-success="handleVideoSuccess"
+                    :before-upload="beforeUploadVideo"
+                    :show-file-list="false"
+                >
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">
+                        将视频拖到此处，或
+                        <em>点击上传</em>
+                    </div>
+                    <div class="el-upload__tip" slot="tip">只能上传视频文件，且不超过500MB</div>
+                </el-upload>
+            </div>
+            <img :src="videoForm.showVideoPath" width="50" height="50">
+            <video v-if="videoForm.showVideoPath !='' && !videoFlag" :src="videoForm.showVideoPath" class="avatar video-avatar" controls="controls">您的浏览器不支持视频播放</video>
+        </div>
+        <el-button type="primary" @click="askVideo">提交</el-button>
     </div>
 </template>
-
 <script>
+// import * as serve from "@/server/catmanvalley"
 export default {
-    name: "",
-    components: {},
-    props: {},
     data() {
         return {
-            preventSumit: false,
-            progressFactor: 0.96,
-            uploadProgress: 0,
-            headers: {},
-            fileList: [],
-            temp: { videoIntroduce: "" },
+            title: "",
+            editor: "",
+            //参数
+            videoFlag: false,
+            //是否显示进度条
+            videoUploadPercent: "",
+            //进度条的进度，
+            isShowUploadVideo: false,
+            //显示上传按钮
+            videoForm: {
+                showVideoPath: "",
+            },
         }
     },
+    created() {},
     methods: {
-        //上传视频
-        onBeforeUpload(file) {
-            console.log("file: ", file)
-            this.progressFactor = Math.random(1)
-            this.preventSumit = true
+        //提问题
+        async askVideo() {
+            // await serve.submitAQuestion({
+            //     title: this.title,
+            //     details: this.editor.text,
+            // })
+            // this.$router.push({
+            //     path: "/home",
+            // })
         },
-        uploadSuccess(response, file, fileList) {
-            console.log("fileList: ", fileList)
-            console.log("file: ", file)
-            let {
-                code,
-                data: { picUrlList },
-                message,
-            } = response
-            if (code == 0) {
-                this.fileList = [{ name: picUrlList[0], url: picUrlList[0] }]
-                this.uploadProgress = 100
-                this.preventSumit = false
-                this.temp.videoIntroduce = this.fileList[0].url
-                setTimeout(() => {
-                    this.uploadProgress = 0
-                }, 1000)
-            } else {
-                this.$refs.upload.clearFiles()
-                this.$notify({
-                    title: "失败",
-                    message: message,
-                    type: "error",
-                    duration: 3000,
+        beforeUploadVideo(file) {
+            var fileSize = file.size / 1024 / 1024 < 500
+            if (
+                [
+                    "video/mp4",
+                    "video/ogg",
+                    "video/flv",
+                    "video/avi",
+                    "video/wmv",
+                    "video/rmvb",
+                    "video/mov",
+                    "image/jpeg",
+                ].indexOf(file.type) == -1
+            ) {
+                this.$alert("请上传正确的视频格式", "提示", {
+                    confirmButtonText: "确定",
+                    callback: (action) => {
+                        this.$message({
+                            type: "info",
+                            message: `action: ${action}`,
+                        })
+                    },
                 })
-                this.preventSumit = false
+                return false
+            }
+            if (!fileSize) {
+                this.$alert("视频大小不能超过5MB", "提示", {
+                    confirmButtonText: "确定",
+                    callback: (action) => {
+                        this.$message({
+                            type: "info",
+                            message: `action: ${action}`,
+                        })
+                    },
+                })
+                return false
+            }
+            this.isShowUploadVideo = false
+        },
+        //进度条
+        uploadVideoProcess(event, file) {
+            this.videoFlag = true
+            this.videoUploadPercent = file.percentage.toFixed(0) * 1
+        },
+        //上传成功回调
+        handleVideoSuccess(res) {
+            this.isShowUploadVideo = true
+            this.videoFlag = false
+            this.videoUploadPercent = 0
+            //后台上传地址
+            if (res.code == 200) {
+                this.videoForm.showVideoPath = res.path
+            } else {
+                this.$alert("上传失败！！", "提示", {
+                    confirmButtonText: "确定",
+                    callback: (action) => {
+                        this.$message({
+                            type: "info",
+                            message: `action: ${action}`,
+                        })
+                    },
+                })
             }
         },
-        handleRemoveVideo(file) {
-            console.log("file: ", file)
-            this.$refs.upload.clearFiles()
-            this.fileList = []
-            this.temp.videoIntroduce = ""
-        },
-        handProgress(file) {
-            this.uploadProgress = parseInt(file.percent * this.progressFactor)
-        },
-        clearUpload() {
-            if (!this.fileList.length) return false
-            this.$refs.upload.clearFiles()
-            this.fileList = []
-            this.temp.videoIntroduce = ""
-        },
     },
+    mounted() {},
 }
 </script>
-
-<style scoped lang="scss">
-
-</style>

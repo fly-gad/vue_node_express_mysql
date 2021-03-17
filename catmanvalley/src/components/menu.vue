@@ -16,12 +16,23 @@
                     </router-link>
                 </div>
             </div>
-            <div class="flex flex-jcsa dsc">
-                <div>稍后作答</div>
-                <div>草稿箱</div>
-            </div>
         </div>
-        <div class="grid-content advertising">广告招商</div>
+        <div class="mt20">
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                    <span>猫人谷Top榜</span>
+                    <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-refresh" @click="change">换一换</el-button>
+                </div>
+                <div v-for="(item,index) in topList" :key="item.id" class="my10 mb10 tops">
+                    <el-row :gutter="20">
+                        <el-col :span="2" class="totss" v-if="val==0">{{index+1}}</el-col>
+                        <el-col :span="2" class="totss" v-else>{{index+11}}</el-col>
+                        <el-col :span="18" class="ellipsis t-a-l">{{item.title}}</el-col>
+                        <el-col :span="4">{{item.browse}}</el-col>
+                    </el-row>
+                </div>
+            </el-card>
+        </div>
         <div class="advertising">
             <div class="foor mt20">
                 <a href="#">猫人谷指南猫人谷协议猫人谷隐私保护指引</a>
@@ -41,6 +52,7 @@
 </template>
 
 <script>
+import * as serve from "@/server/catmanvalley"
 export default {
     name: "",
     components: {},
@@ -69,10 +81,29 @@ export default {
                     to: "/home/favorites",
                 },
             ],
+            topList: [],
+            val: 0,
         }
     },
-    created() {},
-    methods: {},
+    created() {
+        this.entry({ page: 1, page_size: 10 })
+    },
+    methods: {
+        //top请求接口
+        async entry(value) {
+            this.topList = await serve.entry(value)
+        },
+        //换一换
+        change() {
+            this.val++
+            if (this.val == 1) {
+                this.entry({ page: 2, page_size: 10 })
+            } else {
+                this.entry({ page: 1, page_size: 10 })
+                this.val = 0
+            }
+        },
+    },
 }
 </script>
 
@@ -120,17 +151,22 @@ export default {
 .imgTit {
     font-size: 13px;
 }
-.dsc {
-    border-top: 1px solid #f6f6f6;
-}
-.dsc div {
-    border-right: 1px solid #f6f6f6;
-    width: 100%;
-    height: 51px;
-    line-height: 51px;
-}
 .advertising {
     height: 300px;
+}
+.clearfix {
+    text-align: left;
+}
+.clearfix span {
+    font-weight: 700;
+    font-size: 16px;
+}
+.tops {
+    font-size: 13px;
+}
+.totss {
+    color: rgb(241, 129, 77);
+    font-weight: 700;
 }
 .foor {
     text-align: left;

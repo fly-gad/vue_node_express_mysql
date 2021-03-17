@@ -6,9 +6,20 @@
 
 const app = require("express").Router();
 const catman = require('../../src/api/catman')
-
-//验证码
+const multer = require('multer')
+var upload = multer({ dest: './public/image/' }).single('file')
+//查询列表总数
 app.post('/entry', catman.entry)
+
+
+//提交问题接口
+app.post('/submitAQuestion', catman.submitAQuestion)
+
+//上传视频
+app.post('/uploads', upload, catman.uploads)
+
+//上传图片
+app.post('/uploadImage', upload, catman.uploadImage)
 
 
 

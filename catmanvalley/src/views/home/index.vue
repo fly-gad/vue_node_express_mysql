@@ -10,6 +10,17 @@
                 <img src="@/assets/activity.png" alt width="100%" height="auto" />
             </a>
         </div>
+        <div class="grid-content">
+            <el-row :gutter="20">
+                <el-col :span="8"></el-col>
+                <el-col :span="8"></el-col>
+                <el-col :span="8">
+                    <el-input placeholder="请输入搜索内容" v-model="search" class="input-with-select">
+                        <el-button slot="append" icon="el-icon-search" @click="serach"></el-button>
+                    </el-input>
+                </el-col>
+            </el-row>
+        </div>
         <div class="grid-content pb10">
             <!-- 数据展示 -->
             <div v-if="lists.length>=0">
@@ -17,12 +28,12 @@
                     <div class="mb5 title cur-p" @click="detail(item.id)">{{item.title}}</div>
                     <div class="flex flex-jcsb mb10">
                         <div>
-                            <span class="font-13">5420回复</span>
-                            <span class="ml20 font-13">12小时前</span>
+                            <span class="font-13">{{item.comm}}回复</span>
+                            <span class="ml20 font-13">{{item.create_time}}</span>
                         </div>
                         <div>
-                            <span class="font-13">收藏</span>
-                            <span class="ml20 font-13">评论</span>
+                            <!-- <span class="font-13">{{favorites[item.favorites]}}</span> -->
+                            <span class="ml20 font-13">{{item.browse}}浏览</span>
                         </div>
                     </div>
                     <div class="line mb10"></div>
@@ -55,15 +66,15 @@ export default {
             lists: [],
             commentNum: "",
             input3: "",
+            search: "",
         }
     },
     created() {
-        this.entry()
+        this.entry({})
     },
     methods: {
-        async entry() {
-            const result = await serve.entry()
-            this.lists = result
+        async entry(value) {
+            this.lists = await serve.entry(value)
         },
         showNav(tab) {
             this.currentTab = this.currentTab == tab ? "" : tab
@@ -75,6 +86,9 @@ export default {
                     id: val,
                 },
             })
+        },
+        serach() {
+            this.entry({ search: this.search })
         },
     },
 }

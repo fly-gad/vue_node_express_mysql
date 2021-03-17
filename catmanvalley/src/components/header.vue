@@ -7,7 +7,14 @@
     <div class="header">
         <el-row :gutter="20">
             <el-col :span="7">
-                <div v-html="err"></div>
+                <el-col :span="4">
+                    <div v-html="err"></div>
+                </el-col>
+                <el-col :span="12">
+                    <router-link to="/home">
+                        <div class="logo">猫人谷</div>
+                    </router-link>
+                </el-col>
             </el-col>
             <el-col :span="7">
                 <div v-html="err"></div>
@@ -19,7 +26,6 @@
                 <div class="mt5">
                     <el-popover width="50" trigger="click">
                         <div class="hig">
-                            <div class="hig_ch" @click="homepage">我的主页</div>
                             <div class="hig_ch" @click="settings">设置</div>
                             <div class="hig_ch" @click="cookieremove" v-loading.fullscreen.lock="fullscreenLoading">退出登录</div>
                         </div>
@@ -45,6 +51,7 @@ export default {
             show: true,
         }
     },
+    created() {},
     methods: {
         //退出
         cookieremove() {
@@ -57,23 +64,31 @@ export default {
                 })
             }, 500)
         },
-        //主页
-        homepage() {
-            this.$router.push({
-                path: "/home",
-            })
-        },
         //设置
         settings() {},
+        //搜索
+        serach() {},
     },
 }
 </script>
 <style scoped>
+.el-row {
+    line-height: 50px;
+}
+.logo {
+    text-align: center;
+    height: 50px;
+    font-size: 24px;
+    letter-spacing: 10px;
+    font-weight: 800;
+    color: rgb(97, 105, 128);
+    font-family: "Lucida Console", "Courier New", monospace;
+}
 .el-popover {
     padding: 0px !important;
 }
 .hig {
-    height: 120px;
+    height: 80px;
 }
 .hig_ch {
     height: 35px;

@@ -5,43 +5,70 @@
 -->
 <template>
     <div class="detail">
-        <div class="grid-content pd10">
+        <div class="grid-content pd10" v-for="item in detail" :key="item.id">
+            <!-- 文章流量 -->
             <div>
-                <span class="title">这女司机停车技术什么水平</span>
-                <span class="font-13 ml20">193回复</span>
-                <span class="font-13 ml20">306836浏览</span>
+                <span class="title">{{item.title}}</span>
             </div>
+            <!-- 楼主信息 -->
             <div class="flex author">
                 <img src="http://ww4.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2pddjuj30v90uvagf.jpg" alt width="40" height="40" />
                 <div class="author_ch">
                     <span>洪世贤吖</span>
                     <span class="ml20 poster">楼主</span>
-                    <span class="ml20 font-13">2021-03-08 01:00:35</span>
+                    <span class="ml20 font-13">{{item.create_time}}</span>
                 </div>
             </div>
-            <div style="height:200px; background: #f9f9f9;">内容</div>
-            <div style="height:200px; background: #f2f3f4;border:1px solid #ccc" class="mt20">评论</div>
+            <!-- 内容 -->
+            <div class="author_details">{{item.details}}</div>
+            <div class="author_details">
+                <video width="320" height="240" controls>
+                    <source
+                        src="https://v.hoopchina.com.cn/hupuapp/bbs/226448181750701/thread_226448181750701_20210316073026_30098.mp4?auth_key=1615895160-0-0-43ae7fa3b7b727a893447e126003ecbb"
+                        type="video/mp4"
+                    />
+                </video>
+            </div>
+            <!-- 评论 -->
+            <div class="mt20">
+                <el-collapse>
+                    <el-collapse-item>
+                        <template slot="title">
+                            <span class="verticalbar"></span>
+                            <span>全部回复</span>
+                        </template>
+                        <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
+                        <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
+                    </el-collapse-item>
+                </el-collapse>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import * as serve from "@/server/catmanvalley"
 export default {
     name: "",
     components: {},
     props: {},
     data() {
-        return {}
+        return {
+            detail: [],
+        }
     },
-    computed: {},
-    watch: {},
-    created() {},
-    mounted() {},
-    methods: {},
+    created() {
+        this.entry()
+    },
+    methods: {
+        async entry() {
+            this.detail = await serve.entry({ id: this.$route.query.id })
+        },
+    },
 }
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .detail {
     text-align: left;
 }
@@ -64,5 +91,30 @@ export default {
 .author_ch {
     line-height: 30px;
     margin-left: 10px;
+}
+.author_details {
+    height: 200px;
+    background: #f9f9f9;
+    padding: 20px;
+    overflow: hidden;
+    height: 100%;
+}
+.author_comm {
+    height: 200px;
+    background: #f2f3f4;
+    border: 1px solid #ccc;
+}
+/deep/.el-collapse{
+    border:1px solid #ccc;
+}
+/deep/.el-collapse-item__header {
+    background: #f2f3f4 !important;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    font-weight: 700;
+}
+/deep/.el-collapse-item__wrap{
+    background: #f2f3f4 !important;
+    border-bottom: 1px solid #ccc;
 }
 </style>

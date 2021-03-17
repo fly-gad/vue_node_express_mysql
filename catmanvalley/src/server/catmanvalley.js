@@ -6,6 +6,9 @@
 
 import { API } from '@/api/index';
 
-export const entry = function () {
-    return API.post('/entry')
+export const entry = function (param) {
+    return API.post('/entry',param)
+}
+export const submitAQuestion = function (param) {
+    return API.post('/submitAQuestion', param)
 }
