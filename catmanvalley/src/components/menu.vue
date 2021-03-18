@@ -23,7 +23,7 @@
                     <span>猫人谷Top榜</span>
                     <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-refresh" @click="change">换一换</el-button>
                 </div>
-                <div v-for="(item,index) in topList" :key="item.id" class="my10 mb10 tops">
+                <div v-for="(item,index) in topList" :key="item.id" class="my10 mb10 tops" @click="detail(item.id)">
                     <el-row :gutter="20">
                         <el-col :span="2" class="totss" v-if="val==0">{{index+1}}</el-col>
                         <el-col :span="2" class="totss" v-else>{{index+11}}</el-col>
@@ -61,8 +61,8 @@ export default {
         return {
             list: [
                 {
-                    name: "回答问题",
-                    imgUrl: "回",
+                    name: "发图片",
+                    imgUrl: "图",
                     to: "/home/reply",
                 },
                 {
@@ -102,6 +102,16 @@ export default {
                 this.entry({ page: 1, page_size: 10 })
                 this.val = 0
             }
+        },
+        //详情
+        detail(val) {
+            console.log("val: ", val)
+            this.$router.push({
+                path: "/home/detail",
+                query: {
+                    id: val,
+                },
+            })
         },
     },
 }

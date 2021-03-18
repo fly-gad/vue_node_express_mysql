@@ -58,6 +58,11 @@ const entry = async (req, res) => {
         sql += " WHERE title LIKE ?";
         sqlArr.push("%" + params.search + "%");
     }
+    if (params.favorites) {
+        console.log('params.favorites: ', params.favorites);
+        sql += " WHERE favorites=?";
+        sqlArr.push(params.favorites);
+    }
     let data = await db.SySqlconnection(sql, sqlArr)
     await adas(data)
     if (data) {
@@ -108,7 +113,7 @@ const submitAQuestion = async (req, res) => {
 //     })
 // }
 
-//上传视频
+//上传视频接口
 const uploads = (req, res) => {
     if (req.file.length === 0) {
         res.render("error", { message: "上传文件不能为空！" });
@@ -133,7 +138,7 @@ const uploads = (req, res) => {
         })
     }
 }
-//上传图片
+//上传图片接口
 const uploadImage = (req, res) => {
     if (req.file.length === 0) {  //判断一下文件是否存在，也可以在前端代码中进行判断。
         res.render("error", { message: "上传文件不能为空！" });
@@ -156,9 +161,50 @@ const uploadImage = (req, res) => {
     }
 }
 
+const editCollection = async (req, res) => {
+    const { id, favorite } = req.body
+    let sql = 'UPDATE entry SET favorites=? WHERE id=?;';
+    let sqlArr = [favorite, id];
+    let data = await db.SySqlconnection(sql, sqlArr)
+    if (data) {
+        res.send({
+            code: 200,
+            msg: '成功',
+        })
+    } else {
+        res.send({
+            code: 400,
+            msg: '失败'
+        })
+    }
+
+}
+
+
+const imagearticle = async(req, res) => {
+    let sql = 'select * from image';
+    let sqlArr = [];
+    let data = await db.SySqlconnection(sql, sqlArr)
+    await adas(data)
+    if (data) {
+        res.send({
+            code: 200,
+            msg: '成功',
+            data: data
+        })
+    } else {
+        res.send({
+            code: 400,
+            msg: '失败'
+        })
+    }
+}
+
 module.exports = {
     entry,
     submitAQuestion,
     uploads,
-    uploadImage
+    uploadImage,
+    editCollection,
+    imagearticle
 }
