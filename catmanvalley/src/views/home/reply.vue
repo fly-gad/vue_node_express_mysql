@@ -20,10 +20,10 @@
                 >
                     <i class="el-icon-upload"></i>
                     <div class="el-upload__text">
-                        将图片拖到此处，或
+                        将gif图片拖到此处，或
                         <em>点击上传</em>
                     </div>
-                    <div class="el-upload__tip" slot="tip">只能上传图片文件，且不超过50MB</div>
+                    <div class="el-upload__tip" slot="tip">只能上传gif图片文件，且不超过50MB</div>
                 </el-upload>
             </div>
             <img v-if="videoForm.showVideoPath !='' && !videoFlag" :src="videoForm.showVideoPath" width="358" height="178" />
@@ -56,29 +56,19 @@ export default {
         async askVideo() {
             await serve.uploadImages({
                 title: this.title,
-                imgUrl: this.videoForm.showVideoPath,
+                details: this.videoForm.showVideoPath,
+                type:'gif'
             })
             this.$router.push({
                 path: "/home",
             })
         },
+        //上传前
         beforeUploadVideo(file) {
             console.log("file: ", file.type)
             var fileSize = file.size / 1024 / 1024 < 50
-            if (
-                [
-                    "video/mp4",
-                    "video/ogg",
-                    "video/flv",
-                    "video/avi",
-                    "video/wmv",
-                    "video/rmvb",
-                    "video/mov",
-                    "image/jpeg",
-                    "image/gif",
-                ].indexOf(file.type) == -1
-            ) {
-                this.$alert("请上传正确的视频格式", "提示", {
+            if (["image/gif"].indexOf(file.type) == -1) {
+                this.$alert("请上传正确的gif图片格式", "提示", {
                     confirmButtonText: "确定",
                     callback: (action) => {
                         this.$message({
@@ -90,7 +80,7 @@ export default {
                 return false
             }
             if (!fileSize) {
-                this.$alert("视频大小不能超过5MB", "提示", {
+                this.$alert("图片大小不能超过50MB", "提示", {
                     confirmButtonText: "确定",
                     callback: (action) => {
                         this.$message({

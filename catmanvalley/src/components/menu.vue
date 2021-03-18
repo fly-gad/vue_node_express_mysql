@@ -61,7 +61,7 @@ export default {
         return {
             list: [
                 {
-                    name: "发图片",
+                    name: "发GIF",
                     imgUrl: "图",
                     to: "/home/reply",
                 },

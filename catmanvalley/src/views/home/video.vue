@@ -11,7 +11,7 @@
         <div class="pd10">
             <div v-if="videoForm.showVideoPath ==''">
                 <el-upload
-                    action="http://127.0.0.1:8001/api/uploadImage"
+                    action="http://127.0.0.1:8001/api/uploadVideo"
                     drag
                     :on-progress="uploadVideoProcess"
                     :on-success="handleVideoSuccess"
@@ -26,14 +26,20 @@
                     <div class="el-upload__tip" slot="tip">只能上传视频文件，且不超过500MB</div>
                 </el-upload>
             </div>
-            <img :src="videoForm.showVideoPath" width="50" height="50">
-            <video v-if="videoForm.showVideoPath !='' && !videoFlag" :src="videoForm.showVideoPath" class="avatar video-avatar" controls="controls">您的浏览器不支持视频播放</video>
+            <video
+                v-if="videoForm.showVideoPath !='' && !videoFlag"
+                width="358"
+                height="178"
+                :src="videoForm.showVideoPath"
+                class="avatar video-avatar"
+                controls="controls"
+            >您的浏览器不支持视频播放</video>
         </div>
         <el-button type="primary" @click="askVideo">提交</el-button>
     </div>
 </template>
 <script>
-// import * as serve from "@/server/catmanvalley"
+import * as serve from "@/server/catmanvalley"
 export default {
     data() {
         return {
@@ -55,14 +61,16 @@ export default {
     methods: {
         //提问题
         async askVideo() {
-            // await serve.submitAQuestion({
-            //     title: this.title,
-            //     details: this.editor.text,
-            // })
-            // this.$router.push({
-            //     path: "/home",
-            // })
+            await serve.releaseVideo({
+                title: this.title,
+                details: this.videoForm.showVideoPath,
+                type:'mp4'
+            })
+            this.$router.push({
+                path: "/home",
+            })
         },
+        //上传前
         beforeUploadVideo(file) {
             var fileSize = file.size / 1024 / 1024 < 500
             if (
@@ -74,7 +82,6 @@ export default {
                     "video/wmv",
                     "video/rmvb",
                     "video/mov",
-                    "image/jpeg",
                 ].indexOf(file.type) == -1
             ) {
                 this.$alert("请上传正确的视频格式", "提示", {
@@ -89,7 +96,7 @@ export default {
                 return false
             }
             if (!fileSize) {
-                this.$alert("视频大小不能超过5MB", "提示", {
+                this.$alert("视频大小不能超过500MB", "提示", {
                     confirmButtonText: "确定",
                     callback: (action) => {
                         this.$message({

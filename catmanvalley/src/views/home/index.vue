@@ -69,7 +69,7 @@
                 <div class="entrynum" v-for="item in listss" :key="item.id">
                     <div class="mb5 title cur-p" @click="detail(item.id)">{{item.title}}</div>
                     <div class="mb5 title t-a-c">
-                        <img :src="item.img_url" alt />
+                        <img :src="item.details" alt />
                     </div>
                     <div class="flex flex-jcsb mb10">
                         <div>

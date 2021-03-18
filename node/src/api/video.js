@@ -6,28 +6,34 @@
 const db = require("../../http/db")
 const fs = require('fs')
 
-//上传图片接口
-const uploadImage = (req, res) => {
+//上传视频接口
+const uploadVideo = (req, res) => {
     if (req.file.length === 0) {
         res.render("error", { message: "上传文件不能为空！" });
         return
     } else {
         let file = req.file;
-        fs.renameSync('./public/image/' + file.filename, './public/image/' + file.originalname);
-        // 设置响应类型及编码
+        let fileInfo = {};
+        fs.renameSync('./public/uploads/' + file.filename, './public/uploads/' + file.originalname);
+        fileInfo.mimetype = file.mimetype;
+        fileInfo.originalname = file.originalname;
+        fileInfo.size = file.size;
+        fileInfo.path = file.path;
         res.set({
             'content-type': 'application/json; charset=utf-8'
         });
         res.send({
             code: '200',
             msg: '成功',
-            path: "http://127.0.0.1:8001/image/" + file.originalname
+            type: 'single',
+            originalname: req.file.originalname,
+            path: "http://127.0.0.1:8001/uploads/" + file.originalname
         })
     }
 }
 
-//沙雕图发布接口
-const uploadImages = async (req, res) => {
+//发布视频接口
+const releaseVideo = async (req, res) => {
     const { title, details, type } = req.body
     let sql = `INSERT INTO entry(title,details,comm,favorites,likes,create_time,browse,type)
     VALUES(?,?,?,?,?,?,?,?)`;
@@ -48,32 +54,9 @@ const uploadImages = async (req, res) => {
     } catch (error) {
         console.log('error: ', error);
     }
-
 }
-
-//沙雕图列表接口
-const imagearticle = async (req, res) => {
-    let sql = "SELECT * FROM entry WHERE type='gif'";
-    let sqlArr = [];
-    let data = await db.SySqlconnection(sql, sqlArr)
-    await conversion(data)
-    if (data) {
-        res.send({
-            code: 200,
-            msg: '成功',
-            data: data
-        })
-    } else {
-        res.send({
-            code: 400,
-            msg: '失败'
-        })
-    }
-}
-
 
 module.exports = {
-    uploadImage,
-    imagearticle,
-    uploadImages
+    uploadVideo,
+    releaseVideo
 }

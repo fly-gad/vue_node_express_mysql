@@ -10,7 +10,8 @@ module.exports = {
     host: 'localhost',
     user: 'root',
     password: '123456',
-    database: 'backstage',
+    database: 'frontdesk',
+    // database: 'backstage',
     port: '3306'
   },
   //使用连接池方式链接mysql数据库

@@ -31,6 +31,14 @@ app.use('/api', catmanvalley);
 let image = require('./http/interface/image');
 app.use('/api', image);
 
+//引入
+let video = require('./http/interface/video');
+app.use('/api', video);
+
+//引入
+// let index = require('./http/index');
+// app.use('/api', index);
+
 //引入环境变量
 const { env } = require('./http/env')
 //启动服务，端口3000

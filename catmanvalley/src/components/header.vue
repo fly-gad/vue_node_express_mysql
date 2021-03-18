@@ -51,7 +51,8 @@ export default {
             show: true,
         }
     },
-    created() {},
+    created() {
+    },
     methods: {
         //退出
         cookieremove() {
@@ -65,7 +66,11 @@ export default {
             }, 500)
         },
         //设置
-        settings() {},
+        settings() {
+            this.$router.push({
+                path: "/settings",
+            })
+        },
         //搜索
         serach() {},
     },

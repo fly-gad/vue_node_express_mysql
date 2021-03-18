@@ -158,7 +158,9 @@ export default {
         freeLogin(formName) {
             this.$refs[formName].validate(async (valid) => {
                 if (valid) {
-                    const token = await server.login(this.ruleFormCode)
+                    const { token, id } = await server.login(this.ruleFormCode)
+                    console.log(token)
+                    console.log(id)
                     User.set(token)
                     this.fullscreenLoading = true
                     setTimeout(() => {
@@ -172,13 +174,15 @@ export default {
                 }
             })
         },
+        //账户登录
         submitForm(formName) {
             this.$refs[formName].validate(async (valid) => {
                 if (valid) {
-                    const token = await server.accountPassWordlogin(
+                    const { token, id } = await server.accountPassWordlogin(
                         this.ruleForm
                     )
-                    console.log("token: ", token)
+                    console.log(token)
+                    console.log(id)
                     User.set(token)
                     this.fullscreenLoading = true
                     setTimeout(() => {

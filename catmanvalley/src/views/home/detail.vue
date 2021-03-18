@@ -20,15 +20,18 @@
                 </div>
             </div>
             <!-- 内容 -->
-            <div class="author_details">{{item.details}}</div>
-            <div class="author_details">
-                <video width="320" height="240" controls>
-                    <source
-                        src="https://v.hoopchina.com.cn/hupuapp/bbs/226448181750701/thread_226448181750701_20210316073026_30098.mp4?auth_key=1615895160-0-0-43ae7fa3b7b727a893447e126003ecbb"
-                        type="video/mp4"
-                    />
-                </video>
+            <div>
+                <div class="artic_details" v-if="item.type=='article'">{{item.details}}</div>
+                <div class="author_details" v-if="item.type=='mp4'">
+                    <video width="640" height="426" controls>
+                        <source :src="item.details" type="video/mp4" />
+                    </video>
+                </div>
+                <div class="author_details" v-if="item.type=='gif'">
+                    <img :src="item.details" />
+                </div>
             </div>
+
             <!-- 评论 -->
             <div class="mt20">
                 <el-collapse>
@@ -92,8 +95,15 @@ export default {
     line-height: 30px;
     margin-left: 10px;
 }
+.artic_details {
+    background: #f9f9f9;
+    padding: 20px;
+    overflow: hidden;
+    height: 100%;
+    font-size: 14px;
+}
 .author_details {
-    height: 200px;
+    text-align: center;
     background: #f9f9f9;
     padding: 20px;
     overflow: hidden;

@@ -1,10 +1,5 @@
 /*
  * @Author: MrZhang
- * @Date: 2021-02-26 13:51:33
- * @Description:
- */
-/*
- * @Author: MrZhang
  * @Date: 2021-02-02 15:24:09
  * @Description:接口
  */
@@ -107,31 +102,6 @@ const submitAQuestion = async (req, res) => {
     }
 }
 
-//上传视频接口
-const uploads = (req, res) => {
-    if (req.file.length === 0) {
-        res.render("error", { message: "上传文件不能为空！" });
-        return
-    } else {
-        let file = req.file;
-        let fileInfo = {};
-        fs.renameSync('./public/uploads/' + file.filename, './public/uploads/' + file.originalname);
-        fileInfo.mimetype = file.mimetype;
-        fileInfo.originalname = file.originalname;
-        fileInfo.size = file.size;
-        fileInfo.path = file.path;
-        res.set({
-            'content-type': 'application/json; charset=utf-8'
-        });
-        res.send({
-            code: '200',
-            msg: '成功',
-            type: 'single',
-            originalname: req.file.originalname,
-            path: "http://127.0.0.1:8001/uploads/" + file.originalname
-        })
-    }
-}
 
 
 //修改头像接口
@@ -172,7 +142,6 @@ const editUserImg = (req, res) => {
     }
 }
 
-
 //收藏接口
 const editCollection = async (req, res) => {
     const { id, favorite } = req.body
@@ -197,7 +166,6 @@ const editCollection = async (req, res) => {
 module.exports = {
     entry,
     submitAQuestion,
-    uploads,
     editUserImg,
-    editCollection
+    editCollection,
 }

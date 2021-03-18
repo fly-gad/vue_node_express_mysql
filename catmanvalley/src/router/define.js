@@ -53,6 +53,23 @@ const routes = [
                 component: () => import('@/views/home/detail.vue')
             }
         ]
+    },
+    {
+        path: '/settings',
+        name: '设置',
+        component: () => import('@/views/settings/index.vue'),
+        children: [
+            {
+                path: 'account',
+                name: '帐号与密码',
+                component: () => import('@/views/settings/account.vue')
+            },
+            {
+                path: 'filter',
+                name: '屏蔽',
+                component: () => import('@/views/settings/filter.vue')
+            }
+        ]
     }
 ];
 

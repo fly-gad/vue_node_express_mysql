@@ -132,12 +132,13 @@ codePhoneLogin = async (req, res) => {
         let status = findCodeAndPhone(phone, code);
         if (status == 'login') {
             let code = randCode(32);
-            await phoneCodeBind(phone)
+            let data = await phoneCodeBind(phone)
             res.send({
                 "code": 200,
                 "msg": '登录成功',
                 "data": {
-                    token: code
+                    token: code,
+                    id: data[0].id
                 }
             })
         } else if (status == 'error') {
@@ -171,7 +172,8 @@ accountPassWordlogin = async (req, res) => {
             code: 200,
             msg: '成功',
             data: {
-                token: code
+                token: code,
+                id: data[0].id
             }
         })
     } else {
@@ -209,7 +211,7 @@ modifypassword = async (req, res) => {
     })
 }
 
-
+//用户列表
 user = async (req, res) => {
     let sql = `select * from user`;
     let sqlArr = [];
