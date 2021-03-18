@@ -1,7 +1,7 @@
 /*
  * @Author: MrZhang
  * @Date: 2021-02-02 09:57:42
- * @Description: 后台接口
+ * @Description: 登录后台接口公共入口
  */
 
 const app = require("express").Router();
@@ -29,5 +29,7 @@ app.post('/modifypassword', login.modifypassword)
 //分页
 app.get('/lists', api.lists)
 
+//绑定邮箱
+app.get('/bindEmail', api.bindEmail)
 
 module.exports = app;

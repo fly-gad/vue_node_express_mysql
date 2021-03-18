@@ -93,6 +93,29 @@ const lists = async (req, res) => {
 
 }
 
+//绑定用户邮箱接口
+const bindEmail = async (req, res) => {
+    const { user_id, email } = req.body;
+    let sql = "update  user set email=? where id=?";
+    let sqlArr = [email, user_id];
+    let data = await db.SySqlconnection(sql, sqlArr)
+    if (data) {
+        res.send({
+            code: 200,
+            msg: '成功',
+            data: data
+        })
+    } else {
+        res.send({
+            code: 400,
+            msg: '失败'
+        })
+    }
+}
+
+
+
 module.exports = {
-    lists
+    lists,
+    bindEmail
 }

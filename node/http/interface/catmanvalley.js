@@ -7,7 +7,9 @@
 const app = require("express").Router();
 const catman = require('../../src/api/catman')
 const multer = require('multer')
-var upload = multer({ dest: './public/image/' }).single('file')
+var uploads = multer({ dest: './public/uploads/' }).single('file')
+var upload = multer({ dest: './public/uploads/' }).single('file')
+
 //查询列表总数
 app.post('/entry', catman.entry)
 
@@ -18,13 +20,10 @@ app.post('/editCollection', catman.editCollection)
 app.post('/submitAQuestion', catman.submitAQuestion)
 
 //上传视频
-app.post('/uploads', upload, catman.uploads)
+app.post('/uploads', uploads, catman.uploads)
 
-//上传图片
-app.post('/uploadImage', upload, catman.uploadImage)
-
-//上传图片
-app.post('/imagearticle', upload, catman.imagearticle)
+//修改头像接口
+app.post('/editUserImg', upload, catman.editUserImg)
 
 
 

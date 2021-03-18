@@ -20,3 +20,6 @@ export const submitAQuestion = function (param) {
 export const imagearticle = function (param) {
     return API.post('/imagearticle', param)
 }
+export const uploadImages = function (param) {
+    return API.post('/uploadImages', param)
+}

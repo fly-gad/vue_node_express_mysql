@@ -23,7 +23,13 @@
                             <div class="hig_ch" @click="settings">设置</div>
                             <div class="hig_ch" @click="cookieremove" v-loading.fullscreen.lock="fullscreenLoading">退出登录</div>
                         </div>
-                        <el-avatar class="cur-p" slot="reference" shape="square" :size="40"></el-avatar>
+                        <el-avatar
+                            class="cur-p"
+                            slot="reference"
+                            shape="square"
+                            :size="40"
+                            src="http://127.0.0.1:8001/uploads/00745YaMgy1gonu4bs8fij30kk0d1jsk.jpg"
+                        ></el-avatar>
                     </el-popover>
                 </div>
             </el-col>

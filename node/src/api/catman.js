@@ -11,6 +11,7 @@
 const db = require("../../http/db")
 const dayjs = require("dayjs")
 const fs = require('fs')
+
 // 时间格式转换
 formateDate = (time) => {
     let date = dayjs(time).format();
@@ -34,11 +35,14 @@ formateDate = (time) => {
         parseInt(marr[2]);
     return dd;
 }
-adas = (time) => {
+
+//时间格式转换
+conversion = (time) => {
     for (const iterator of time) {
         iterator.create_time = formateDate(iterator.create_time)
     }
 }
+
 //查询列表总数
 const entry = async (req, res) => {
     const params = req.body
@@ -64,7 +68,7 @@ const entry = async (req, res) => {
         sqlArr.push(params.favorites);
     }
     let data = await db.SySqlconnection(sql, sqlArr)
-    await adas(data)
+    await conversion(data)
     if (data) {
         res.send({
             code: 200,
@@ -102,16 +106,6 @@ const submitAQuestion = async (req, res) => {
         console.log('error: ', error);
     }
 }
-// //上传
-// const uploads = (req, res) => {
-//     res.send({
-//         code: '200',
-//         msg: '成功',
-//         type: 'single',
-//         originalname: req.file.originalname,
-//         path: req.file.path
-//     })
-// }
 
 //上传视频接口
 const uploads = (req, res) => {
@@ -138,29 +132,48 @@ const uploads = (req, res) => {
         })
     }
 }
-//上传图片接口
-const uploadImage = (req, res) => {
+
+
+//修改头像接口
+const editUserImg = (req, res) => {
     if (req.file.length === 0) {  //判断一下文件是否存在，也可以在前端代码中进行判断。
         res.render("error", { message: "上传文件不能为空！" });
         return
     } else {
         let file = req.file;
-        console.log('file: ', file);
-        fs.renameSync('./public/image/' + file.filename, './public/image/' + file.originalname);
+        console.log(file);
+        fs.renameSync('./public/uploads/' + file.filename, './public/uploads/' + file.originalname);
         // 设置响应类型及编码
         res.set({
             'content-type': 'application/json; charset=utf-8'
         });
-        res.send({
-            code: '200',
-            msg: '成功',
-            type: 'single',
-            originalname: file.originalname,
-            path: "http://127.0.0.1:8001/image/" + file.originalname
+        let { user_id } = req.query;
+        let imgUrl = 'http://127.0.0.1:8001/uploads/' + file.originalname;
+        let sql = "update  user set userpic=? where id=?";
+        let sqlArr = [imgUrl, user_id];
+        db.sqlconnection(sql, sqlArr, (err, data) => {
+            if (err) {
+                console.log('err: ', err);
+            } else {
+                if (data.affectedRows == 1) {
+                    res.send({
+                        'code': 200,
+                        'msg': '修改成功',
+                        'url': imgUrl
+                    });
+                } else {
+                    res.send({
+                        'code': 500,
+                        'msg': '修改失败'
+                    });
+                }
+            }
         })
     }
 }
 
+
+//收藏接口
 const editCollection = async (req, res) => {
     const { id, favorite } = req.body
     let sql = 'UPDATE entry SET favorites=? WHERE id=?;';
@@ -181,30 +194,10 @@ const editCollection = async (req, res) => {
 }
 
 
-const imagearticle = async(req, res) => {
-    let sql = 'select * from image';
-    let sqlArr = [];
-    let data = await db.SySqlconnection(sql, sqlArr)
-    await adas(data)
-    if (data) {
-        res.send({
-            code: 200,
-            msg: '成功',
-            data: data
-        })
-    } else {
-        res.send({
-            code: 400,
-            msg: '失败'
-        })
-    }
-}
-
 module.exports = {
     entry,
     submitAQuestion,
     uploads,
-    uploadImage,
-    editCollection,
-    imagearticle
+    editUserImg,
+    editCollection
 }
