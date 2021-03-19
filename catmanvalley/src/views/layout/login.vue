@@ -159,9 +159,8 @@ export default {
             this.$refs[formName].validate(async (valid) => {
                 if (valid) {
                     const { token, id } = await server.login(this.ruleFormCode)
-                    console.log(token)
-                    console.log(id)
                     User.set(token)
+                    User.localsetItem(id)
                     this.fullscreenLoading = true
                     setTimeout(() => {
                         this.fullscreenLoading = false
@@ -181,8 +180,7 @@ export default {
                     const { token, id } = await server.accountPassWordlogin(
                         this.ruleForm
                     )
-                    console.log(token)
-                    console.log(id)
+                    User.localsetItem(id)
                     User.set(token)
                     this.fullscreenLoading = true
                     setTimeout(() => {

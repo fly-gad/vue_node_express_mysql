@@ -29,3 +29,16 @@ export const uploadImages = function (param) {
 export const releaseVideo = function (param) {
     return API.post('/releaseVideo', param)
 }
+
+//用户信息
+export const accuntinfo = function (param) {
+    return API.post('/accuntinfo', param)
+}
+//用户信息
+export const editUserImg = function (param) {
+    return API.post('/editUserImg', param)
+}
+//修改密码
+export const modifypassword = function (params) {
+    return API.post('/modifypassword', params)
+}

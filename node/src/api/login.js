@@ -103,7 +103,6 @@ let regUser = async (phone) => {
 
 //获取用户信息的方法
 let getUser = async (username) => {
-    console.log('username: ', username);
     let sql = `select * from user where id=? or phone=? or username=?`;
     let sqlArr = [username, username, username];
     return await db.SySqlconnection(sql, sqlArr)
@@ -188,7 +187,6 @@ accountPassWordlogin = async (req, res) => {
 accuntinfo = async (req, res) => {
     let { id } = req.body
     let data = await getUser(id)
-    console.log('data: ', data);
     res.send({
         code: 200,
         msg: '成功',

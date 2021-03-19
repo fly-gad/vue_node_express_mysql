@@ -29,7 +29,7 @@
                             <div class="hig_ch" @click="settings">设置</div>
                             <div class="hig_ch" @click="cookieremove" v-loading.fullscreen.lock="fullscreenLoading">退出登录</div>
                         </div>
-                        <el-avatar class="cur-p" slot="reference" shape="square" :size="40"></el-avatar>
+                        <el-avatar class="cur-p" slot="reference" shape="square" :size="40" :src="urlImg"></el-avatar>
                     </el-popover>
                 </div>
             </el-col>
@@ -43,20 +43,24 @@
 <script>
 import { env } from "@/util/env/index"
 import * as User from "@/util/user/user"
+import * as server from "@/server/catmanvalley"
 export default {
     data() {
         return {
             err: "&#12288;",
             fullscreenLoading: false,
             show: true,
+            urlImg: "",
         }
     },
     created() {
+        this.accactInfo()
     },
     methods: {
         //退出
         cookieremove() {
             User.remove()
+            User.localClear()
             this.fullscreenLoading = true
             setTimeout(() => {
                 this.fullscreenLoading = false
@@ -73,6 +77,12 @@ export default {
         },
         //搜索
         serach() {},
+        async accactInfo() {
+            const { data } = await server.accuntinfo({
+                id: User.localgetItem("id"),
+            })
+            this.urlImg = data[0].userpic
+        },
     },
 }
 </script>

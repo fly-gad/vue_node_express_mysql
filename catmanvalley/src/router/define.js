@@ -58,6 +58,7 @@ const routes = [
         path: '/settings',
         name: '设置',
         component: () => import('@/views/settings/index.vue'),
+        redirect: '/settings/account',
         children: [
             {
                 path: 'account',

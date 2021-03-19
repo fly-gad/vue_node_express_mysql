@@ -37,3 +37,16 @@ export const sync = function () {
     }
     return false;
 }
+
+
+export const localsetItem = function (value) {
+    return localStorage.setItem("id", value)
+}
+
+export const localgetItem = function (value) {
+    return localStorage.getItem(value)
+}
+
+export const localClear = function () {
+    return localStorage.clear()
+}

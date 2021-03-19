@@ -5,7 +5,7 @@
 -->
 <template>
     <div class="menu">
-        <el-menu default-active="2" @open="handleOpen" @close="handleClose" router>
+        <el-menu default-active="/settings/account" router>
             <el-menu-item index="/settings/account">
                 <i class="el-icon-user-solid"></i>
                 <span slot="title">帐号与密码</span>
@@ -21,14 +21,7 @@
 <script>
 export default {
     created() {},
-    methods: {
-        handleOpen(key, keyPath) {
-            console.log(key, keyPath)
-        },
-        handleClose(key, keyPath) {
-            console.log(key, keyPath)
-        },
-    },
+    methods: {},
 }
 </script>
 
