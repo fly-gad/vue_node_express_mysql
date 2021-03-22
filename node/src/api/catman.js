@@ -4,40 +4,15 @@
  * @Description:接口
  */
 const db = require("../../http/db")
-const dayjs = require("dayjs")
+const moment = require("moment")
 const fs = require('fs')
-
-// 时间格式转换
-formateDate = (time) => {
-    let date = dayjs(time).format();
-    const arr = date.split("T");
-    const d = arr[0];
-    const darr = d.split("-");
-    const t = arr[1];
-    const tarr = t.split(".000");
-    const marr = tarr[0].split(":");
-    const dd =
-        parseInt(darr[0]) +
-        "-" +
-        parseInt(darr[1]) +
-        "-" +
-        parseInt(darr[2]) +
-        " " +
-        parseInt(marr[0]) +
-        ":" +
-        parseInt(marr[1]) +
-        ":" +
-        parseInt(marr[2]);
-    return dd;
-}
 
 //时间格式转换
 conversion = (time) => {
     for (const iterator of time) {
-        iterator.create_time = formateDate(iterator.create_time)
+        iterator.create_time = moment(iterator.create_time).format('YYYY-MM-DD HH:mm');
     }
 }
-
 //查询列表总数
 const entry = async (req, res) => {
     const params = req.body
@@ -66,9 +41,10 @@ const entry = async (req, res) => {
     await conversion(data)
     if (data) {
         res.send({
+
             code: 200,
             msg: '成功',
-            data: data
+            data: data,
         })
     } else {
         res.send({
@@ -80,10 +56,10 @@ const entry = async (req, res) => {
 
 //提交问题
 const submitAQuestion = async (req, res) => {
-    const { title, details } = req.body
-    let sql = `INSERT INTO entry(title,details,comm,favorites,likes,create_time,browse)
-    VALUES(?,?,?,?,?,?,?)`;
-    let sqlArr = [title, details, '5434', '1', '545', '2020-12-13', 452];
+    const { title, details, type, create_time } = req.body
+    let sql = `INSERT INTO entry(title,details,comm,favorites,likes,create_time,browse,type)
+    VALUES(?,?,?,?,?,?,?,?)`;
+    let sqlArr = [title, details, '5434', '1', '545', create_time, 452, type];
     let data = await db.SySqlconnection(sql, sqlArr)
     try {
         if (data) {
@@ -101,8 +77,6 @@ const submitAQuestion = async (req, res) => {
         console.log('error: ', error);
     }
 }
-
-
 
 //修改头像接口
 const editUserImg = (req, res) => {

@@ -17,6 +17,7 @@
 <script>
 import quillEditor from "@/components/quillEditor"
 import * as serve from "@/server/catmanvalley"
+import moment from "moment"
 export default {
     data() {
         return {
@@ -25,8 +26,11 @@ export default {
         }
     },
     components: { quillEditor },
-    created() {},
+    created() {
+        console.log()
+    },
     methods: {
+        //方法回调
         quillEditor(editor) {
             this.editor = editor
         },
@@ -35,6 +39,8 @@ export default {
             await serve.submitAQuestion({
                 title: this.title,
                 details: this.editor.text,
+                type: "article",
+                create_time: moment(new Date()).format("YYYY-MM-DD HH:mm"),
             })
             this.$router.push({
                 path: "/home",

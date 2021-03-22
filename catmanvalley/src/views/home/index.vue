@@ -5,11 +5,13 @@
 -->
 <template>
     <div id="div1">
+        <!-- 活动图片 -->
         <div class="grid-content">
             <a style="font-size: 0px;display: block;">
                 <img src="@/assets/activity.png" alt width="100%" height="auto" />
             </a>
         </div>
+        <!-- tab导航 -->
         <div class="grid-content tab" :class="navBarFixed == true ? 'navBarWrap' :''">
             <el-row :gutter="20">
                 <el-col :span="8">
@@ -65,33 +67,48 @@
         </div>
         <!-- 沙雕图 -->
         <div v-if="radio1==2">
-            <div class="grid-content pd10 t-a-l">
-                <div class="entrynum" v-for="item in listss" :key="item.id">
-                    <div class="mb5 title cur-p" @click="detail(item.id)">{{item.title}}</div>
-                    <div class="mb5 title t-a-c">
-                        <img :src="item.details" alt />
-                    </div>
-                    <div class="flex flex-jcsb mb10">
-                        <div>
-                            <span class="font-13">{{item.comm}}回复</span>
-                            <span class="ml20 font-13">{{item.create_time}}</span>
+            <div class="grid-content pd10">
+                <!-- 沙雕图数据展示 -->
+                <div v-if="listss.length>=0">
+                    <div class="entrynum t-a-l" v-for="item in listss" :key="item.id">
+                        <div class="mb5 title cur-p" @click="detail(item.id)">{{item.title}}</div>
+                        <div class="mb5 title t-a-c">
+                            <img :src="item.details" alt />
                         </div>
-                        <div>
-                            <span class="cur-p">
-                                <i class="el-icon-star-off" @click="openfavorites(2,item.id)" v-show="item.favorites==1">
-                                    <span class="font-13">收藏</span>
-                                </i>
-                            </span>
-                            <span class="cur-p">
-                                <i class="el-icon-star-on" @click="openfavorites(1,item.id)" v-show="item.favorites==2" style="color:#5e5ee5;font-size:18px">
-                                    <span class="font-13">丢弃</span>
-                                </i>
-                            </span>
-                            <!-- <span class="font-13">{{favorites[item.favorites]}}</span> -->
-                            <span class="ml20 font-13">{{item.browse}}浏览</span>
+                        <div class="flex flex-jcsb mb10">
+                            <div>
+                                <span class="font-13">{{item.comm}}回复</span>
+                                <span class="ml20 font-13">{{item.create_time}}</span>
+                            </div>
+                            <div>
+                                <span class="cur-p">
+                                    <i class="el-icon-star-off" @click="openfavorites(2,item.id)" v-show="item.favorites==1">
+                                        <span class="font-13">收藏</span>
+                                    </i>
+                                </span>
+                                <span class="cur-p">
+                                    <i
+                                        class="el-icon-star-on"
+                                        @click="openfavorites(1,item.id)"
+                                        v-show="item.favorites==2"
+                                        style="color:#5e5ee5;font-size:18px"
+                                    >
+                                        <span class="font-13">丢弃</span>
+                                    </i>
+                                </span>
+                                <!-- <span class="font-13">{{favorites[item.favorites]}}</span> -->
+                                <span class="ml20 font-13">{{item.browse}}浏览</span>
+                            </div>
                         </div>
+                        <div class="line mb10"></div>
                     </div>
-                    <div class="line mb10"></div>
+                </div>
+                <!-- 无数据展示 -->
+                <div slot="empty" v-else>
+                    <div>
+                        <img src="@/assets/empty.png" alt width="140" height="140" />
+                    </div>
+                    <p :style="{'marginTop': '20px'}">未有任何记录</p>
                 </div>
             </div>
         </div>
