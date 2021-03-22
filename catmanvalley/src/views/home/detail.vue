@@ -22,16 +22,15 @@
             <!-- 内容 -->
             <div>
                 <div class="artic_details" v-if="item.type=='article'">{{item.details}}</div>
-                <div class="author_details" v-if="item.type=='mp4'">
+                <div class="author_details" v-if="item.type=='video'">
                     <video width="640" height="426" controls>
                         <source :src="item.details" type="video/mp4" />
                     </video>
                 </div>
-                <div class="author_details" v-if="item.type=='gif'">
+                <div class="author_details" v-if="item.type=='image'">
                     <img :src="item.details" />
                 </div>
             </div>
-
             <!-- 评论 -->
             <div class="mt20">
                 <el-collapse>

@@ -130,44 +130,6 @@ const editUserImg = (req, res) => {
     })
 
 }
-// //修改头像接口
-// const editUserImg = (req, res) => {
-//     const { user_id, img } = req.body
-//     if (req.file.length === 0) {  //判断一下文件是否存在，也可以在前端代码中进行判断。
-//         res.render("error", { message: "上传文件不能为空！" });
-//         return
-//     } else {
-//         let file = req.file;
-//         console.log(file);
-//         fs.renameSync('./public/uploads/' + file.filename, './public/uploads/' + file.originalname);
-//         // 设置响应类型及编码
-//         res.set({
-//             'content-type': 'application/json; charset=utf-8'
-//         });
-//         let { user_id } = req.query;
-//         let imgUrl = 'http://127.0.0.1:8001/uploads/' + file.originalname;
-//         let sql = "update  user set userpic=? where id=?";
-//         let sqlArr = [imgUrl, user_id];
-//         db.sqlconnection(sql, sqlArr, (err, data) => {
-//             if (err) {
-//                 console.log('err: ', err);
-//             } else {
-//                 if (data.affectedRows == 1) {
-//                     res.send({
-//                         'code': 200,
-//                         'msg': '修改成功',
-//                         'url': imgUrl
-//                     });
-//                 } else {
-//                     res.send({
-//                         'code': 500,
-//                         'msg': '修改失败'
-//                     });
-//                 }
-//             }
-//         })
-//     }
-// }
 
 //收藏接口
 const editCollection = async (req, res) => {

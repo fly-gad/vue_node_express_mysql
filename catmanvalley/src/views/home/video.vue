@@ -64,7 +64,7 @@ export default {
             await serve.releaseVideo({
                 title: this.title,
                 details: this.videoForm.showVideoPath,
-                type:'mp4'
+                type: "video",
             })
             this.$router.push({
                 path: "/home",

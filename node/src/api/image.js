@@ -53,7 +53,7 @@ const uploadImages = async (req, res) => {
 
 //沙雕图列表接口
 const imagearticle = async (req, res) => {
-    let sql = "SELECT * FROM entry WHERE type='gif'";
+    let sql = "SELECT * FROM entry WHERE type='image'";
     let sqlArr = [];
     let data = await db.SySqlconnection(sql, sqlArr)
     await conversion(data)

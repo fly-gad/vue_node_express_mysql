@@ -57,7 +57,7 @@ export default {
             await serve.uploadImages({
                 title: this.title,
                 details: this.videoForm.showVideoPath,
-                type:'gif'
+                type:'image'
             })
             this.$router.push({
                 path: "/home",
