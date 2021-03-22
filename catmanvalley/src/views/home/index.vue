@@ -33,12 +33,23 @@
             <!-- 数据展示 -->
             <div v-if="lists.length>=0">
                 <div class="entrynum" v-for="item in lists" :key="item.id">
-                    <div class="mb5 title cur-p" @click="detail(item.id)">{{item.title}}</div>
+                    <div class="mb5 title cur-p" @click="detail(item.id,item.browse)">{{item.title}}</div>
                     <div class="flex flex-jcsb mb10">
                         <div>
                             <span class="font-13">{{item.comm}}回复</span>
                             <span class="ml20 font-13">{{item.create_time}}</span>
+                            <span class="cur-p ml20">
+                                <span class="bj bj_c" @click="closelikes(item.id,item.likes)" v-if="currentTab==item.id">
+                                    <i class="el-icon-thumb"></i>
+                                    <span class="ml5">{{(item.likes)}}</span>
+                                </span>
+                                <span class="bj" @click="openlikes(item.id,item.likes)" v-else>
+                                    <i class="el-icon-thumb"></i>
+                                    <span class="ml5">{{(item.likes)}}</span>
+                                </span>
+                            </span>
                         </div>
+                        <!-- 收藏 -->
                         <div>
                             <span class="cur-p">
                                 <i class="el-icon-star-off" @click="openfavorites(2,item.id)" v-show="item.favorites==1">
@@ -59,8 +70,8 @@
             </div>
             <!-- 无数据展示 -->
             <div slot="empty" v-else>
-                <div>
-                    <img src="@/assets/empty.png" alt width="140" height="140" />
+                <div class="pt20">
+                    <img src="@/assets/nodata.png" alt width="250" height="250" />
                 </div>
                 <p :style="{'marginTop': '20px'}">未有任何记录</p>
             </div>
@@ -80,6 +91,7 @@
                                 <span class="font-13">{{item.comm}}回复</span>
                                 <span class="ml20 font-13">{{item.create_time}}</span>
                             </div>
+                            <!-- 收藏 -->
                             <div>
                                 <span class="cur-p">
                                     <i class="el-icon-star-off" @click="openfavorites(2,item.id)" v-show="item.favorites==1">
@@ -105,8 +117,8 @@
                 </div>
                 <!-- 无数据展示 -->
                 <div slot="empty" v-else>
-                    <div>
-                        <img src="@/assets/empty.png" alt width="140" height="140" />
+                    <div class="pt20">
+                        <img src="@/assets/nodata.png" alt width="250" height="250" />
                     </div>
                     <p :style="{'marginTop': '20px'}">未有任何记录</p>
                 </div>
@@ -116,6 +128,7 @@
 </template>
 
 <script>
+import * as User from "@/util/user/user"
 import * as serve from "@/server/catmanvalley"
 export default {
     name: "",
@@ -136,6 +149,7 @@ export default {
             showOff: true,
             showOn: false,
             navBarFixed: false,
+            show: true,
         }
     },
     created() {
@@ -150,7 +164,7 @@ export default {
         async entry(value) {
             this.lists = await serve.entry(value)
         },
-        //收藏列表
+        //沙雕图列表
         async imagearticle(value) {
             this.listss = await serve.imagearticle(value)
         },
@@ -159,18 +173,18 @@ export default {
             await serve.editCollection(value)
         },
         //详情
-        detail(val) {
+        async detail(id, browse_num) {
+            await serve.browseNum({ id, browse_num })
             this.$router.push({
                 path: "/home/detail",
-                query: {
-                    id: val,
-                },
+                query: { id, user_id: User.localgetItem("id") },
             })
         },
         //搜索
         serach() {
             this.entry({ search: this.search })
         },
+        //收藏
         openfavorites(value, index) {
             this.editCollection({ favorite: value, id: index })
             setTimeout(() => {
@@ -188,6 +202,24 @@ export default {
             } else {
                 this.navBarFixed = false
             }
+        },
+        //点赞
+        async openlikes(id, point_like) {
+            await serve.pointlike({ id, point_like })
+            this.show = false
+            this.currentTab = this.currentTab == id ? "" : id
+            setTimeout(() => {
+                this.entry({})
+            }, 13)
+        },
+        //取消点赞
+        async closelikes(id, point_like) {
+            await serve.pointlike({ id, point_like: point_like - 2 })
+            this.show = true
+            this.currentTab = this.currentTab == id ? "" : id
+            setTimeout(() => {
+                this.entry({})
+            }, 13)
         },
     },
 }
@@ -213,5 +245,28 @@ export default {
     background: #fff;
     z-index: 9999;
     width: 61.7%;
+}
+.bj {
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #dcdfe6;
+    color: #606266;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: 0;
+    margin: 0;
+    transition: 0.1s;
+    font-weight: 500;
+    padding: 4px 5px;
+    font-size: 13px;
+    border-radius: 4px;
+}
+.bj_c {
+    background: #0078ff;
+    color: #fff;
 }
 </style>

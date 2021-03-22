@@ -1,7 +1,7 @@
 <!--
  * @Author: MrZhang
  * @Date: 2021-03-08 11:42:12
- * @Description: 发视频
+ * @Description: 发GIF
 -->
 <template>
     <div class="grid-content pb20">
@@ -33,6 +33,7 @@
 </template>
 <script>
 import * as serve from "@/server/catmanvalley"
+import moment from "moment"
 export default {
     data() {
         return {
@@ -57,7 +58,8 @@ export default {
             await serve.uploadImages({
                 title: this.title,
                 details: this.videoForm.showVideoPath,
-                type:'image'
+                type: "image",
+                create_time: moment(new Date()).format("YYYY-MM-DD HH:mm"),
             })
             this.$router.push({
                 path: "/home",

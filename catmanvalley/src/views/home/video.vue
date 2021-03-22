@@ -40,6 +40,7 @@
 </template>
 <script>
 import * as serve from "@/server/catmanvalley"
+import moment from "moment"
 export default {
     data() {
         return {
@@ -65,6 +66,7 @@ export default {
                 title: this.title,
                 details: this.videoForm.showVideoPath,
                 type: "video",
+                create_time: moment(new Date()).format("YYYY-MM-DD HH:mm"),
             })
             this.$router.push({
                 path: "/home",

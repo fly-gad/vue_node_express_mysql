@@ -13,6 +13,7 @@ conversion = (time) => {
         iterator.create_time = moment(iterator.create_time).format('YYYY-MM-DD HH:mm');
     }
 }
+
 //查询列表总数
 const entry = async (req, res) => {
     const params = req.body
@@ -33,7 +34,6 @@ const entry = async (req, res) => {
         sqlArr.push("%" + params.search + "%");
     }
     if (params.favorites) {
-        console.log('params.favorites: ', params.favorites);
         sql += " WHERE favorites=?";
         sqlArr.push(params.favorites);
     }
@@ -41,7 +41,6 @@ const entry = async (req, res) => {
     await conversion(data)
     if (data) {
         res.send({
-
             code: 200,
             msg: '成功',
             data: data,
@@ -125,10 +124,50 @@ const editCollection = async (req, res) => {
 
 }
 
+//点赞-喜欢
+const pointlike = async (req, res) => {
+    const { point_like, id } = req.body
+    let sql = 'UPDATE entry SET likes=? WHERE id=?';
+    let sqlArr = [point_like + 1, id];
+    let data = await db.SySqlconnection(sql, sqlArr)
+    if (data) {
+        res.send({
+            code: 200,
+            msg: '成功',
+        })
+    } else {
+        res.send({
+            code: 400,
+            msg: '失败'
+        })
+    }
+}
+
+//浏览次数
+const browseNum = async (req, res) => {
+    const { browse_num, id } = req.body
+    let sql = 'UPDATE entry SET browse=? WHERE id=?';
+    let sqlArr = [browse_num + 1, id];
+    let data = await db.SySqlconnection(sql, sqlArr)
+    if (data) {
+        res.send({
+            code: 200,
+            msg: '成功',
+        })
+    } else {
+        res.send({
+            code: 400,
+            msg: '失败'
+        })
+    }
+}
+
 
 module.exports = {
     entry,
     submitAQuestion,
     editUserImg,
     editCollection,
+    pointlike,
+    browseNum
 }

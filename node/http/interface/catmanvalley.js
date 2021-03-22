@@ -15,10 +15,14 @@ app.post('/entry', catman.entry)
 //收藏
 app.post('/editCollection', catman.editCollection)
 
+//点赞-喜欢
+app.post('/pointlike', catman.pointlike)
+
+//浏览次数
+app.post('/browseNum', catman.browseNum)
+
 //提交问题接口
 app.post('/submitAQuestion', catman.submitAQuestion)
-
-
 
 //修改头像接口
 app.post('/editUserImg', upload, catman.editUserImg)

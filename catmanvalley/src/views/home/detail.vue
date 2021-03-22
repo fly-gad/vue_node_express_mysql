@@ -14,7 +14,7 @@
             <div class="flex author">
                 <img src="http://ww4.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2pddjuj30v90uvagf.jpg" alt width="40" height="40" />
                 <div class="author_ch">
-                    <span>洪世贤吖</span>
+                    <span>{{item.author}}</span>
                     <span class="ml20 poster">楼主</span>
                     <span class="ml20 font-13">{{item.create_time}}</span>
                 </div>
