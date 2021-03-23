@@ -34,6 +34,7 @@
 <script>
 import * as serve from "@/server/catmanvalley"
 import moment from "moment"
+import * as User from "@/util/user/user"
 export default {
     data() {
         return {
@@ -60,6 +61,7 @@ export default {
                 details: this.videoForm.showVideoPath,
                 type: "image",
                 create_time: moment(new Date()).format("YYYY-MM-DD HH:mm"),
+                user_id: User.localgetItem("id"),
             })
             this.$router.push({
                 path: "/home",

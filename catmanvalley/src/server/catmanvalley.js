@@ -57,3 +57,18 @@ export const editUserImg = function (param) {
 export const modifypassword = function (params) {
     return API.post('/modifypassword', params)
 }
+
+//评论
+export const discuss = function (params) {
+    return API.post('/discuss', params)
+}
+
+//评论列表
+export const discussList = function (params) {
+    return API.post('/discussList', params)
+}
+
+//举报
+export const reportNum = function (params) {
+    return API.post('/reportNum', params)
+}

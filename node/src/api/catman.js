@@ -20,7 +20,7 @@ const entry = async (req, res) => {
     let sql = 'select * from entry';
     let sqlArr = [];
     if (params.id) {
-        sql += " where id=?"
+        sql = "select * from (SELECT e.*,u.userpic,u.alias FROM user u, entry e where u.id = e.user_id) ss where ss.id=?"
         sqlArr.push(params.id)
     }
     if (params.page || params.page_size) {//开启分页
@@ -55,10 +55,10 @@ const entry = async (req, res) => {
 
 //提交问题
 const submitAQuestion = async (req, res) => {
-    const { title, details, type, create_time } = req.body
-    let sql = `INSERT INTO entry(title,details,comm,favorites,likes,create_time,browse,type)
-    VALUES(?,?,?,?,?,?,?,?)`;
-    let sqlArr = [title, details, '5434', '1', '545', create_time, 452, type];
+    const { title, details, type, create_time, user_id } = req.body
+    let sql = `INSERT INTO entry(title,details,comm,favorites,likes,create_time,browse,type,user_id)
+    VALUES(?,?,?,?,?,?,?,?,?)`;
+    let sqlArr = [title, details, '0', '1', '0', create_time, 0, type, user_id];
     let data = await db.SySqlconnection(sql, sqlArr)
     try {
         if (data) {
@@ -162,6 +162,69 @@ const browseNum = async (req, res) => {
     }
 }
 
+//回复
+const discuss = async (req, res) => {
+    const { id, substance, create_time, user_id } = req.body
+    let sql = 'INSERT INTO reply (entry_id,substance,create_time,user_id) VALUES (?,?,?,?)';
+    let sqlArr = [id, substance, create_time, user_id];
+    let data = await db.SySqlconnection(sql, sqlArr)
+    if (data) {
+        res.send({
+            code: 200,
+            msg: '成功',
+        })
+    } else {
+        res.send({
+            code: 400,
+            msg: '失败'
+        })
+    }
+}
+
+//回复列表
+const discussList = async (req, res) => {
+    const { id } = req.body
+    let sql = 'select * from (SELECT r.*,u.userpic,u.alias FROM user u, reply r where u.id = r.user_id) ss where ss.entry_id=?';
+    let sqlArr = [id];
+    let data = await db.SySqlconnection(sql, sqlArr)
+    conversion(data)
+    if (data) {
+        res.send({
+            code: 200,
+            msg: '成功',
+            data: data
+        })
+    } else {
+        res.send({
+            code: 400,
+            msg: '失败'
+        })
+    }
+}
+
+//举报
+const reportNum = async (req, res) => {
+    const { contants, create_time, user_id, entry_id } = req.body
+    let sql = `INSERT INTO report(contants,create_time,user_id,entry_id)
+    VALUES(?,?,?,?)`;
+    let sqlArr = [contants, create_time, user_id, entry_id];
+    let data = await db.SySqlconnection(sql, sqlArr)
+    try {
+        if (data) {
+            res.send({
+                code: 200,
+                msg: '成功',
+            })
+        } else {
+            res.send({
+                code: 400,
+                msg: '失败'
+            })
+        }
+    } catch (error) {
+        console.log('error: ', error);
+    }
+}
 
 module.exports = {
     entry,
@@ -169,5 +232,8 @@ module.exports = {
     editUserImg,
     editCollection,
     pointlike,
-    browseNum
+    browseNum,
+    discuss,
+    discussList,
+    reportNum
 }

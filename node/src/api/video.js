@@ -34,10 +34,10 @@ const uploadVideo = (req, res) => {
 
 //发布视频接口
 const releaseVideo = async (req, res) => {
-    const { title, details, type, create_time } = req.body
-    let sql = `INSERT INTO entry(title,details,comm,favorites,likes,create_time,browse,type)
-    VALUES(?,?,?,?,?,?,?,?)`;
-    let sqlArr = [title, details, '5434', '1', '545', create_time, 452, type];
+    const { title, details, type, create_time, user_id } = req.body
+    let sql = `INSERT INTO entry(title,details,comm,favorites,likes,create_time,browse,type,user_id)
+    VALUES(?,?,?,?,?,?,?,?,?)`;
+    let sqlArr = [title, details, '0', '1', '0', create_time, 0, type, user_id];
     let data = await db.SySqlconnection(sql, sqlArr)
     try {
         if (data) {

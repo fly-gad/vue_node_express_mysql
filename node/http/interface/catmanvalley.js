@@ -27,4 +27,13 @@ app.post('/submitAQuestion', catman.submitAQuestion)
 //修改头像接口
 app.post('/editUserImg', upload, catman.editUserImg)
 
+//评论
+app.post('/discuss', catman.discuss)
+
+//评论
+app.post('/discussList', catman.discussList)
+
+//举报
+app.post('/reportNum', catman.reportNum)
+
 module.exports = app;

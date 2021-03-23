@@ -31,7 +31,7 @@
         <!-- 为你推荐 -->
         <div class="grid-content pb10" v-if="radio1==1">
             <!-- 数据展示 -->
-            <div v-if="lists.length>=0">
+            <div v-if="lists.length>0">
                 <div class="entrynum" v-for="item in lists" :key="item.id">
                     <div class="mb5 title cur-p" @click="detail(item.id,item.browse)">{{item.title}}</div>
                     <div class="flex flex-jcsb mb10">
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <!-- 无数据展示 -->
-            <div slot="empty" v-else>
+            <div v-else>
                 <div class="pt20">
                     <img src="@/assets/nodata.png" alt width="250" height="250" />
                 </div>
@@ -80,7 +80,7 @@
         <div v-if="radio1==2">
             <div class="grid-content pd10">
                 <!-- 沙雕图数据展示 -->
-                <div v-if="listss.length>=0">
+                <div v-if="listss.length>0">
                     <div class="entrynum t-a-l" v-for="item in listss" :key="item.id">
                         <div class="mb5 title cur-p" @click="detail(item.id)">{{item.title}}</div>
                         <div class="mb5 title t-a-c">
@@ -88,23 +88,17 @@
                         </div>
                         <div class="flex flex-jcsb mb10">
                             <div>
-                                <span class="font-13">{{item.comm}}回复</span>
-                                <span class="ml20 font-13">{{item.create_time}}</span>
+                                <span class="font-13">{{item.create_time}}</span>
                             </div>
                             <!-- 收藏 -->
                             <div>
-                                <span class="cur-p">
-                                    <i class="el-icon-star-off" @click="openfavorites(2,item.id)" v-show="item.favorites==1">
+                                <span class="cur-p" @click="openfavoritess(2,item.id)">
+                                    <i class="el-icon-star-off" v-show="item.favorites==1">
                                         <span class="font-13">收藏</span>
                                     </i>
                                 </span>
-                                <span class="cur-p">
-                                    <i
-                                        class="el-icon-star-on"
-                                        @click="openfavorites(1,item.id)"
-                                        v-show="item.favorites==2"
-                                        style="color:#5e5ee5;font-size:18px"
-                                    >
+                                <span class="cur-p" @click="openfavoritess(1,item.id)">
+                                    <i class="el-icon-star-on" v-show="item.favorites==2" style="color:#5e5ee5;font-size:18px">
                                         <span class="font-13">丢弃</span>
                                     </i>
                                 </span>
@@ -116,7 +110,7 @@
                     </div>
                 </div>
                 <!-- 无数据展示 -->
-                <div slot="empty" v-else>
+                <div v-else>
                     <div class="pt20">
                         <img src="@/assets/nodata.png" alt width="250" height="250" />
                     </div>
@@ -189,6 +183,13 @@ export default {
             this.editCollection({ favorite: value, id: index })
             setTimeout(() => {
                 this.entry({})
+            }, 13)
+        },
+        //沙雕图搜藏
+        openfavoritess(value, index) {
+            this.editCollection({ favorite: value, id: index })
+            setTimeout(() => {
+                this.imagearticle({})
             }, 13)
         },
         //监听

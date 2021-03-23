@@ -12,9 +12,9 @@
             </div>
             <!-- 楼主信息 -->
             <div class="flex author">
-                <img src="http://ww4.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2pddjuj30v90uvagf.jpg" alt width="40" height="40" />
+                <img :src="item.userpic" alt width="40" height="40" />
                 <div class="author_ch">
-                    <span>{{item.author}}</span>
+                    <span>{{item.alias}}</span>
                     <span class="ml20 poster">楼主</span>
                     <span class="ml20 font-13">{{item.create_time}}</span>
                 </div>
@@ -31,16 +31,40 @@
                     <img :src="item.details" />
                 </div>
             </div>
+            <!-- 点赞回复 -->
+            <div>
+                <review :items="detail"></review>
+            </div>
             <!-- 评论 -->
             <div class="mt20">
-                <el-collapse>
-                    <el-collapse-item>
+                <el-collapse v-model="activeName">
+                    <el-collapse-item name="1">
                         <template slot="title">
                             <span class="verticalbar"></span>
-                            <span>全部回复</span>
+                            <span>全部评论</span>
                         </template>
-                        <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-                        <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
+                        <!-- 评论内容 -->
+                        <div v-if="discuss_list.length>0">
+                            <div v-for="item in discuss_list" :key="item.id" class="pd10">
+                                <!-- 评论者信息 -->
+                                <div class="flex author">
+                                    <img :src="item.userpic" alt width="40" height="40" />
+                                    <div class="author_ch">
+                                        <span>{{item.alias}}</span>
+                                        <span class="ml20 font-13">{{item.create_time}}</span>
+                                    </div>
+                                </div>
+                                <!-- 评论的内容 -->
+                                <div class="substance_details">{{item.substance}}</div>
+                            </div>
+                        </div>
+                        <!-- 无数据展示 -->
+                        <div v-else class="t-a-c">
+                            <div class="pt20">
+                                <img src="@/assets/nodata.png" alt width="250" height="250" />
+                            </div>
+                            <p :style="{'marginTop': '20px'}">未有任何评论</p>
+                        </div>
                     </el-collapse-item>
                 </el-collapse>
             </div>
@@ -50,21 +74,32 @@
 
 <script>
 import * as serve from "@/server/catmanvalley"
+import review from "@/components/review"
 export default {
     name: "",
-    components: {},
+    components: { review },
     props: {},
     data() {
         return {
+            activeName: "1",
             detail: [],
+            discuss_list: [],
         }
     },
     created() {
         this.entry()
+        this.discussList()
     },
     methods: {
+        //列表
         async entry() {
             this.detail = await serve.entry({ id: this.$route.query.id })
+        },
+        //评论列表
+        async discussList() {
+            this.discuss_list = await serve.discussList({
+                id: this.$route.query.id,
+            })
         },
     },
 }
@@ -97,6 +132,13 @@ export default {
 .artic_details {
     background: #f9f9f9;
     padding: 20px;
+    overflow: hidden;
+    height: 100%;
+    font-size: 14px;
+}
+.substance_details {
+    // background: #f9f9f9;
+    padding: 10px 0px 10px 50px;
     overflow: hidden;
     height: 100%;
     font-size: 14px;

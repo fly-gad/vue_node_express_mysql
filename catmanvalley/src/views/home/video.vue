@@ -41,6 +41,7 @@
 <script>
 import * as serve from "@/server/catmanvalley"
 import moment from "moment"
+import * as User from "@/util/user/user"
 export default {
     data() {
         return {
@@ -60,13 +61,14 @@ export default {
     },
     created() {},
     methods: {
-        //提问题
+        //发视频
         async askVideo() {
             await serve.releaseVideo({
                 title: this.title,
                 details: this.videoForm.showVideoPath,
                 type: "video",
                 create_time: moment(new Date()).format("YYYY-MM-DD HH:mm"),
+                user_id: User.localgetItem("id"),
             })
             this.$router.push({
                 path: "/home",
