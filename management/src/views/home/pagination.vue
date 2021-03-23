@@ -18,7 +18,7 @@
             </el-form>
         </div>
         <div class="mt20">
-            <el-table :data="tableData" style="width: 100%" border>
+            <el-table :data="tableData" style="width: 100%" border size="small">
                 <el-table-column prop="id" label="ID" width="180"></el-table-column>
                 <el-table-column prop="name" label="名称" width="180"></el-table-column>
                 <el-table-column prop="features" label="功能"></el-table-column>

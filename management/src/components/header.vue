@@ -19,8 +19,8 @@
                 <div class="mt5">
                     <el-popover width="50" trigger="click">
                         <div class="hig">
-                            <div class="hig_ch" @click="homepage">我的主页</div>
-                            <div class="hig_ch" @click="settings">设置</div>
+                            <!-- <div class="hig_ch" @click="homepage">我的主页</div>
+                            <div class="hig_ch" @click="settings">设置</div> -->
                             <div class="hig_ch" @click="cookieremove" v-loading.fullscreen.lock="fullscreenLoading">退出登录</div>
                         </div>
                         <el-avatar
@@ -79,7 +79,7 @@ export default {
     padding: 0px !important;
 }
 .hig {
-    height: 120px;
+    height: 40px;
 }
 .hig_ch {
     height: 35px;
