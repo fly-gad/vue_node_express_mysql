@@ -26,7 +26,7 @@ const defaultOption = {
   VUE_APP_Path_dashboard: '/home',   // 首页
   VUE_APP_token: 'token',  // token 名称
   VUE_APP_API_timeout: 1000 * 5,// API 请求最大时间
-  VUE_APP_API_baseurl: '/api',  // 接口默认路径
+  VUE_APP_API_baseurl: '/apim',  // 接口默认路径
   VUE_APP_API_domain: 'http://127.0.0.1:8001', // 接口域名
 };
 

@@ -20,8 +20,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 //引入接口模块后台
-let login = require('./http/interface/login');
-app.use('/api', login);
+let login = require('./http/interface_m/login');
+app.use('/apim', login);
+
+
+
+
+
 
 //引入接口模块前台
 let catmanvalley = require('./http/interface/catmanvalley');

@@ -5,7 +5,8 @@
  */
 
 const app = require("express").Router();
-const login = require('../../src/catmanvalley_api/login')
+const api = require('../../src/management_api/index')
+const login = require('../../src/management_api/login')
 
 //验证码
 app.post('/sendCode', login.sendCode)
@@ -24,5 +25,11 @@ app.post('/accuntinfo', login.accuntinfo)
 
 //修改密码
 app.post('/modifypassword', login.modifypassword)
+
+//分页
+app.get('/lists', api.lists)
+
+//绑定邮箱
+app.get('/bindEmail', api.bindEmail)
 
 module.exports = app;

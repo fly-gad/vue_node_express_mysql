@@ -5,7 +5,7 @@
  */
 
 const app = require("express").Router();
-const catman = require('../../src/api/catman')
+const catman = require('../../src/catmanvalley_api/catman')
 const multer = require('multer')
 var upload = multer({ dest: './public/uploads/' }).single('file')
 

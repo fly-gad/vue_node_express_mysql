@@ -4,7 +4,7 @@
  * @Description: 发布图片接口公共入口
  */
 const app = require("express").Router();
-const image = require('../../src/api/image')
+const image = require('../../src/catmanvalley_api/image')
 const multer = require('multer')
 var uploadImage = multer({ dest: './public/image/' }).single('file')
 
