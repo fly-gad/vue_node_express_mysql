@@ -59,12 +59,19 @@
                         <el-form-item prop="password">
                             <el-input type="password" placeholder="密码" v-model="ruleForm.password" autocomplete="off"></el-input>
                         </el-form-item>
-                        <div class="mb20 flex flex-jcsb">
+                        <!-- <div class="mb20 flex flex-jcsb">
                             <div v-html="err"></div>
                             <div class="forget" @click="fogret">忘记密码？</div>
-                        </div>
+                        </div>-->
                         <el-form-item>
                             <el-button class="btn" type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                        </el-form-item>
+                        <el-form-item>
+                            <div class="protocol">
+                                <span>登录账号,即代表同意</span>
+                                <span class="plcolor">《猫人谷协议》</span>
+                                <span class="plcolor">《隐私保护指引》</span>
+                            </div>
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
@@ -149,11 +156,11 @@ export default {
             }
         },
         //忘记密码
-        fogret() {
-            this.$router.push({
-                path: "/forget",
-            })
-        },
+        // fogret() {
+        //     this.$router.push({
+        //         path: "/forget",
+        //     })
+        // },
         //免密登录
         freeLogin(formName) {
             this.$refs[formName].validate(async (valid) => {

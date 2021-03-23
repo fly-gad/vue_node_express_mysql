@@ -33,14 +33,8 @@ const beforeEach = function (to, from, next) {
     // 未登录
     //如果跳转的页面不是登录页
     if (toPath !== env.VUE_APP_Path_login) {
-      console.log('toPath: ', toPath === '/forget');
-      //如果是跳转忘记密码页
-      if (toPath === '/forget') {
-        return next({ path: '/forget' });
-      } else {
-        // 重定向到登录页
-        return next({ path: env.VUE_APP_Path_login });
-      }
+      // 重定向到登录页
+      return next({ path: env.VUE_APP_Path_login });
     }
   }
 

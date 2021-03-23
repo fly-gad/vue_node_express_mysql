@@ -54,9 +54,7 @@
 <script>
 import * as serve from "@/server/catmanvalley"
 export default {
-    name: "",
-    components: {},
-    props: {},
+    inject: ["reload"],
     data() {
         return {
             list: [
@@ -105,13 +103,13 @@ export default {
         },
         //详情
         detail(val) {
-            console.log("val: ", val)
             this.$router.push({
                 path: "/home/detail",
                 query: {
                     id: val,
                 },
             })
+            this.reload()
         },
     },
 }
@@ -173,6 +171,7 @@ export default {
 }
 .tops {
     font-size: 13px;
+    cursor: pointer;
 }
 .totss {
     color: rgb(241, 129, 77);

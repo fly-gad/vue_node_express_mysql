@@ -92,7 +92,7 @@
                             </div>
                             <!-- 收藏 -->
                             <div>
-                                <span class="cur-p" @click="openfavoritess(2,item.id)">
+                                <!-- <span class="cur-p" @click="openfavoritess(2,item.id)">
                                     <i class="el-icon-star-off" v-show="item.favorites==1">
                                         <span class="font-13">收藏</span>
                                     </i>
@@ -101,7 +101,7 @@
                                     <i class="el-icon-star-on" v-show="item.favorites==2" style="color:#5e5ee5;font-size:18px">
                                         <span class="font-13">丢弃</span>
                                     </i>
-                                </span>
+                                </span> -->
                                 <!-- <span class="font-13">{{favorites[item.favorites]}}</span> -->
                                 <span class="ml20 font-13">{{item.browse}}浏览</span>
                             </div>
